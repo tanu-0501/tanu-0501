@@ -1,0 +1,65 @@
+class Encryptor 
+{
+    private String input1;
+    private int keyValue;
+    public Encryptor(String input1, int input2)
+  {
+        this.input1 = input1;
+        this.keyValue = input2;
+    }
+    public String encryptString()
+  {
+        StringBuilder encryptedString = new StringBuilder();
+        String[] words = input1.split(" ");
+        for (String word : words) {
+            for (char ch : word.toCharArray())
+              {
+                encryptedString.append(encryptCharacter(ch));
+            }
+            encryptedString.append(" ");
+        }
+        return encryptedString.toString().trim();  
+    }
+    public static char encryptCharacter(char ch)
+  {
+        int characterValue = 0;
+        char encryptedChar = ch;
+        if (Character.isLetter(ch))
+        {
+            boolean isLowerCase = Character.isLowerCase(ch);
+            characterValue = Character.toLowerCase(ch) - 'a';
+            int newCharValue = (characterValue + Encryptor.getKeyValue()) % 26;
+            if (isLowerCase) 
+            {
+                encryptedChar = Character.toUpperCase((char) (newCharValue + 'a'));
+            } 
+            else 
+            {
+                encryptedChar = Character.toLowerCase((char) (newCharValue + 'a'));
+            }
+        } 
+        else 
+        {
+            encryptedChar = ch;
+        }
+        return encryptedChar;
+    }
+    private static int keyValue;
+    public static void setKeyValue(int key) 
+  {
+        keyValue = key;
+  }
+    public static int getKeyValue()
+  {
+        return keyValue;
+    }
+}
+public class Main {
+    public static void main(String[] args)
+  {
+        Encryptor.setKeyValue(20);
+        Encryptor encryptor = new Encryptor("Wipro Tech", Encryptor.getKeyValue());
+        String encryptedString = encryptor.encryptString();
+        System.out.println("Encrypted words: " + encryptedString);
+    }
+}
